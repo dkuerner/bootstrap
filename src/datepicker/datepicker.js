@@ -44,8 +44,24 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
 
   $scope.datepickerMode = $scope.datepickerMode || datepickerConfig.datepickerMode;
   $scope.uniqueId = 'datepicker-' + $scope.$id + '-' + Math.floor(Math.random() * 10000);
-  this.activeDate = angular.isDefined($attrs.initDate) ? $scope.$parent.$eval($attrs.initDate) : new Date();
+  
+  var traverseParentScopes = function traverser (expression, scope){
+    var result = scope.$parent.$eval(expression);
+    if(typeof(result) !== 'undefined'){
+      self.activeDate = result;
+    }else if(scope.$parent !== null){
+      traverser(expression, scope.$parent);
+    }
+  };
 
+  if(angular.isDefined($attrs.initDate)){
+    traverseParentScopes($attrs.initDate, $scope);
+  }
+
+  if(!this.activeDate){
+    this.activeDate = new Date();
+  }
+    
   $scope.isActive = function(dateObject) {
     if (self.compare(dateObject.date, self.activeDate) === 0) {
       $scope.activeDateId = dateObject.uid;
