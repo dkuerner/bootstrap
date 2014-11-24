@@ -30,7 +30,7 @@ angular.module('ui.bootstrap.dateparser', [])
       apply: function(value) { this.month = value - 1; }
     },
     'M': {
-      regex: '[1-9]|1[0-2]',
+      regex: '1[0-2]|0[1-9]|[1-9]',
       apply: function(value) { this.month = value - 1; }
     },
     'dd': {
@@ -38,7 +38,7 @@ angular.module('ui.bootstrap.dateparser', [])
       apply: function(value) { this.date = +value; }
     },
     'd': {
-      regex: '[1-2]?[0-9]{1}|3[0-1]{1}',
+      regex: '0[1-9]|[12][0-9]|3[01]|[1-9]',
       apply: function(value) { this.date = +value; }
     },
     'EEEE': {
